@@ -1,0 +1,19 @@
+#!/bin/sh
+# flashdisk stuff to do before IFS is mounted
+#
+# PROVIDE: isi_flashdisk_init
+# REQUIRE: NETWORKING ldconfig syslogd isi_psi_bootstrap
+
+. /etc/rc.subr
+
+name="reimage"
+start_cmd="isi_reimage_start"
+
+isi_reimage_start()
+{
+	echo "Writing image into bootdisk ..."
+	/root/bin/reimage.sh my-install.tar.gz 1
+}
+
+load_rc_config $name
+run_rc_command "$1"
