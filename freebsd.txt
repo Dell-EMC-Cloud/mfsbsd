@@ -1,0 +1,123 @@
+1. Download ISO 
+https://freebsdfoundation.org/freebsd-project/resources/installing-freebsd-with-virtualbox/
+
+  - Make sure that the `ports` and `src` packages are selected during install
+  - while adding the user (e.g. lib24), make sure to add it to wheel group
+
+
+Note that at the end of installation, make sure to remove the ISO by following the instructions.
+
+1. Add sudo
+https://www.cyberciti.biz/faq/how-to-add-delete-grant-sudo-privileges-to-users-on-freebsd-unix-server/
+
+install
+# pkg install security/sudo
+add user to group wheel
+# pw group mod wheel -m lib24
+
+# visudo
+append the following line
+
+ ```
+ lib24 ALL=(ALL) ALL
+ ```
+
+1. Add bash
+
+https://www.cyberciti.biz/faq/freebsd-bash-installation/
+
+# pkg update
+# pkg upgrade
+# pkg install bash
+# pkg install bash-completion
+
+change shell to bash
+first login as the user (e.g. lib24)
+# chsh -s /usr/local/bin/bash
+
+1. add git
+pkg install git
+
+1. Add Virtualbox Guest Addition
+pkg install emulators/virtualbox-ose-additions
+pkg install emulators/virtualbox-ose-kmod
+
+1. Install gnome3 desktop
+
+pkg install x11/xorg
+then follow https://www.freebsd.org/doc/handbook/x11-wm.html
+pkg install gnome3
+
+1. add the following line to /etc/fstab
+proc           /proc       procfs  rw  0   0
+
+1. add the following to /etc/rc.conf
+vboxguest_enable="YES"
+vboxservice_enable="YES"
+dbus_enable="YES"
+hald_enable="YES"
+gdm_enable="YES"
+gnome_enable="YES"
+
+
+
+1. Add shared folder
+poweroff
+
+* Use shared folder from host server
+
+. VirtualBox => Settings => Shared Folders => folder-add icon
+
+. browse to the folder (let's presume the folder being selected is called "Shared"), select it then select "Auto-mount"
+
+. boot FreeBSD guest OS and log in as root
+
+mkdir /mnt/sf_(name)
+
+sudo mount -t vboxvfs Downloads /mnt/shared
+
+1. Make it mounted after reboot:
+vi /boot/loader.conf
+vboxvfs_load="YES"
+
+vi /etc/fstab
+Shared /sf_(name) vboxvfs rw 0 0
+
+reboot
+
+
+. Build onefs mfsbsd
+sudo pkg install vim
+sudo pkg install chromium
+sudo pkg install net/rsync
+sudo pkg install git
+sudo pkg install www/py-requests
+
+git clone https://github.west.isilon.com/eng-tools/mfsbsd
+
+sudo ln -s /usr/local/bin/python3.7 /usr/local/bin/python
+
+env BRANCH_NAME=BR_9_1_0 FLAV=release ./bwapi.py bits_url
+
+fetch http://buildbiox.west.isilon.com/snapshots/b.9.1.0.004/obj.RELEASE/install.tar.gz
+
+sudo env ISI= make clean iso
+
+
+1. redirect stderr to stdout
+
+cmd >& file
+
+
+1. Build psstack mfsbsd
+
+- clone the repos
+git clone git@github.com:Dell-EMC-Cloud/mfsbsd.git
+
+- cd mfsbsd and download freebsd
+cd mfsbsd; ci/ci.sh -b prepare
+
+- checkout ipa branch
+git checkout ipa
+
+

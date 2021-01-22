@@ -1,3 +1,27 @@
+If you don't have a FreeBSD machine, you need to create a FreeBSD VM. The latest version should work just fine.
+
+To prepare your build env:
+```
+ci/ci.sh -b prepare
+```
+
+Once done, FreeBSD kernel and base will be stored at /tmp/freebsd-dist
+
+To build a raw image:
+
+```
+make BASE=/tmp/freebsd-dist
+```
+
+To build an iso:
+
+```
+make iso BASE=/tmp/freebsd-dist
+```
+
+
+ORIGINAL Contents:
+
 # mfsBSD
 
 Copyright (c) 2019 Martin Matuska <mm at FreeBSD.org>
