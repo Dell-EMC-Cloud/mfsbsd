@@ -1,0 +1,19 @@
+#!/bin/sh
+# flashdisk stuff to do before IFS is mounted
+#
+# PROVIDE: ironic_python_agent_init
+# REQUIRE: NETWORKING ldconfig syslogd isi_psi_bootstrap
+
+. /etc/rc.subr
+
+name="ironic_python_agent_init"
+start_cmd="ironic_python_agent_init_start"
+
+ironic_python_agent_init_start()
+{
+	echo "Starting ironic-python-agent ..."
+	/usr/local/bin/ironic-python-agent
+}
+
+load_rc_config $name
+run_rc_command "$1"

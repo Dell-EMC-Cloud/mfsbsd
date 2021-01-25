@@ -74,3 +74,5 @@ py37-wrapt
 py37-zipp
 py37-typing-extensions
 curl
+py37-ironic-lib
+py37-ironic-python-agent

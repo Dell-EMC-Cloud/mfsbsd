@@ -1,10 +1,10 @@
 #! /bin/sh
 
 set -e
+set -x
 
-HTTPSERVER="http://192.168.122.1:8080"
 MYINSTALLTAR="/tmp/install.tar.gz"
-fetch ${HTTPSERVER}/static/$1 --output ${MYINSTALLTAR}
+fetch $1 --output ${MYINSTALLTAR}
 
 BOOTDISK=`geom disk list | grep 16G -B 1 | head -1 | awk '{print $3}'`    
 gpart create -s gpt ${BOOTDISK}
@@ -38,7 +38,8 @@ gpart bootcode -p ./root0/boot/gptboot -i 1 ${BOOTDISK}
 # Fixup ttys?  (Do we need this? / It doesn't seem to harm HV, but I haven't tried dropping it.)
 sed -i "" -E -e 's,^(ttyu0[[:space:]]+[^[:space:]]+[[:space:]]+)3wire(.*),\1 std.115200\2,' ./root0/etc/ttys
 
-fetch ${HTTPSERVER}/static/machineid_${2} --output ./root0/etc/isilon_machine_id_fallback
+fetch $2 --output /tmp/isilon_machine_id_fallback
+cp /tmp/isilon_machine_id_fallback ./root0/etc/isilon_machine_id_fallback
 
 echo 'ifconfig_em0="DHCP"' >> ./root0/etc/rc.conf
 
@@ -55,5 +56,3 @@ gmirror stop root0
 gmirror stop var0
 
 sysctl kern.geom.notaste=0
-
-shutdown -h now

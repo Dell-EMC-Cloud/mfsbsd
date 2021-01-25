@@ -77,7 +77,7 @@ WRKDIR?=	${.CURDIR}/work
 BSDLABEL?=	bsdlabel
 #
 DOFS?=		${TOOLSDIR}/doFS.sh
-SCRIPTS?=	mdinit mfsbsd interfaces packages reimage
+SCRIPTS?=	mdinit mfsbsd interfaces packages ironic_python_agent_init
 BOOTMODULES?=	acpi ahci
 .if defined(LOADER_4TH)
 BOOTFILES?=	defaults device.hints loader_4th *.rc *.4th
