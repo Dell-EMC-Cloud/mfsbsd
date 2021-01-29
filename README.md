@@ -1,22 +1,3 @@
-If you don't have a FreeBSD machine, you need to create a FreeBSD VM. The latest version should work just fine.
-
-Check ci/ci.sh on how to download the FreeBSD kernel and base. Assuming that they are downloaded to the directory /tmp/freebsd:
-
-To build a raw image:
-
-```
-make BASE=/tmp/freebsd
-```
-
-To build an iso:
-
-```
-make iso BASE=/tmp/freebsd
-```
-
-
-ORIGINAL Contents:
-
 # mfsBSD
 
 Copyright (c) 2019 Martin Matuska <mm at FreeBSD.org>
