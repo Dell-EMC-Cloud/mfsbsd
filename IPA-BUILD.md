@@ -22,9 +22,9 @@ git checkout powerscale
 1. Build the ports
 
 ```
-cd py-ironic-lib; make makesum; make package
+cd py-ironic-lib; rm -rf work-py37; make makesum; make package
 
-cd py-ironic-python-agent; make makesum; PBR_VERSION=6.5.0 make package
+cd py-ironic-python-agent; rm -rf work-py37; make makesum; PBR_VERSION=6.5.0 make package
 ```
 
 1. Create a local package repo
@@ -64,7 +64,7 @@ sudo pkg update
 cd <root of IPA mfsBSD repo>
 git checkout ipa
 ci/ci.sh -b prepare
-make BASE=/tmp/freebsd
+make BASE=/tmp/freebsd-dist/
 ```
 
 To build an iso:
